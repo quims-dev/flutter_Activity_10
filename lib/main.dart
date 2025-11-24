@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -23,10 +21,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Firebase CRUD',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
-      home: HomePage(),
+      theme: ThemeData(primarySwatch: Colors.teal),
+      home: const HomePage(),
     );
   }
 }
