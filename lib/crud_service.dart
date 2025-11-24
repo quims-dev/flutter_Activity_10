@@ -4,7 +4,6 @@ class CrudService {
   final CollectionReference items =
       FirebaseFirestore.instance.collection('items');
 
-
   Future<void> addItem(String name, int quantity) {
     return items.add({
       'name': name,
@@ -14,22 +13,25 @@ class CrudService {
     });
   }
 
-
   Stream<QuerySnapshot> getItems() {
     return items.orderBy('createdAt', descending: true).snapshots();
   }
 
-
   Stream<QuerySnapshot> getItemsFiltered(bool favoritesOnly) {
-    if (favoritesOnly) {
+    if (!favoritesOnly) {
+      return getItems();
+    }
+
+    try {
       return items
           .where('favorite', isEqualTo: true)
           .orderBy('createdAt', descending: true)
           .snapshots();
+    } catch (e) {
+      print("🔥 Firestore index missing, falling back to all items: $e");
+      return getItems();
     }
-    return getItems();
   }
-
 
   Future<void> updateItem(String id, String name, int quantity) {
     return items.doc(id).update({
@@ -37,7 +39,6 @@ class CrudService {
       'quantity': quantity,
     });
   }
-
 
   Future<void> toggleFavorite(String id, bool currentValue) {
     return items.doc(id).update({
@@ -49,3 +50,4 @@ class CrudService {
     return items.doc(id).delete();
   }
 }
+
