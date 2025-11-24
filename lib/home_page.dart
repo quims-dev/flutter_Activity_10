@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController nameCtrl = TextEditingController();
   final TextEditingController qtyCtrl = TextEditingController();
 
-  bool showFavorites = false; // Filter toggle
+  bool showFavorites = false; 
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: Colors.teal,
 
-        // ⭐ Favorites filter switch button
+        
         actions: [
           IconButton(
             icon: Icon(
@@ -41,16 +41,15 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
 
-      // 🔥 Updated real-time stream using safe CrudService
       body: StreamBuilder<QuerySnapshot>(
         stream: service.getItemsFiltered(showFavorites),
         builder: (context, snapshot) {
-          // Still loading?
+        
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // Error handling (ex: missing index)
+          
           if (snapshot.hasError) {
             return Center(
               child: Text(
@@ -98,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // ❤️ Toggle favorite
+                     
                       IconButton(
                         icon: Icon(
                           isFavorite
@@ -111,13 +110,13 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
 
-                      // ✏ Edit
+  
                       IconButton(
                         icon: const Icon(Icons.edit, color: Colors.orange),
                         onPressed: () => openEditDialog(context, item),
                       ),
 
-                      // 🗑 Delete
+                  
                       IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
                         onPressed: () => confirmDelete(context, item.id),
@@ -139,7 +138,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // DELETE CONFIRMATION
+
   void confirmDelete(BuildContext context, String id) {
     showDialog(
       context: context,
@@ -164,7 +163,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ADD ITEM DIALOG
+
   void openAddDialog(BuildContext context) {
     nameCtrl.clear();
     qtyCtrl.clear();
@@ -220,7 +219,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // EDIT DIALOG
+
   void openEditDialog(BuildContext context, DocumentSnapshot item) {
     final data = item.data() as Map<String, dynamic>;
 
